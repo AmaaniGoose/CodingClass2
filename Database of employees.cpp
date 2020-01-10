@@ -49,7 +49,7 @@ int countemp(struct Employee *ptr)
 }
 struct Employee *addrec(struct Employee *ptr)
 {int org=sizeof(ptr)/sizeof(ptr[0]),i;
-	ptr=realloc(ptr,(2+sizeof(ptr))*sizeof(struct Employee));
+	ptr=(struct Employee*)realloc(ptr,(2+sizeof(ptr))*sizeof(struct Employee));
 	for(i=org;i<sizeof(ptr)/sizeof(ptr[0]);i++)
 	{
 		scanf("%d",&ptr[i].Emp_id);
