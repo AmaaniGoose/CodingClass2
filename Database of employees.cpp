@@ -38,7 +38,7 @@ void sort(struct Employee *ptr)
 		{	
 			if(ptr[i].Emp_id>ptr[i+1].Emp_id)
 				{
-					swap(ptr[i],ptr[i+1]);
+					swap(&ptr[i],&ptr[i+1]);
 				}
 		}
 	
