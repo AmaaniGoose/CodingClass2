@@ -4,7 +4,7 @@ struct Employee{
 	int Emp_id;
 	char Emp_name[100];
 	char Emp_city[100];
-}ptr[100];
+}ptr[100]={0};
 int n=5;
 void swap(struct Employee *a,struct Employee  *b)
 {
@@ -14,12 +14,13 @@ void swap(struct Employee *a,struct Employee  *b)
 }
 void CreateDatabase(void)
 {int i;
+
 printf("Enter data: \n");
 	for(i=0;i<n;i++)
 	{
 		scanf("%d",&ptr[i].Emp_id);
-		gets(ptr[i].Emp_name);
-		gets(ptr[i].Emp_city);
+		scanf("%s",ptr[i].Emp_name);
+		scanf("%s",ptr[i].Emp_city);
 	}
 printf("Database created with size %d\n",n);
 }
