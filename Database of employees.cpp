@@ -4,27 +4,28 @@ struct Employee{
 	int Emp_id;
 	char Emp_name[100];
 	char Emp_city[100];
-};
+}ptr[100];
+int n=5;
 void swap(struct Employee *a,struct Employee  *b)
 {
 	struct Employee temp=*a;
 	*a=*b;
 	*b=temp;
 }
-struct Employee *CreateDatabase(void)
+void CreateDatabase(void)
 {int i;
-	struct Employee *ptr=(struct Employee*)malloc(2*sizeof(struct Employee));
-	for(i=0;i<sizeof(ptr)/sizeof(ptr[0]);i++)
+printf("Enter data: \n");
+	for(i=0;i<n;i++)
 	{
 		scanf("%d",&ptr[i].Emp_id);
 		gets(ptr[i].Emp_name);
 		gets(ptr[i].Emp_city);
 	}
-	return ptr;
+printf("Database created with size %d\n",n);
 }
 int search(struct Employee *ptr,int Emp_id)
 {int i;
-	for(i=0;i<sizeof(ptr)/sizeof(ptr[0]);i++)
+	for(i=0;i<n;i++)
 	{
 		if(Emp_id==ptr[i].Emp_id)
 		{return i;
@@ -34,7 +35,7 @@ int search(struct Employee *ptr,int Emp_id)
 }
 void sort(struct Employee *ptr)
 {int i;
-	for(i=0;i<sizeof(ptr)/sizeof(ptr[0]);i++)
+	for(i=0;i<n;i++)
 		{	
 			if(ptr[i].Emp_id>ptr[i+1].Emp_id)
 				{
@@ -45,19 +46,22 @@ void sort(struct Employee *ptr)
 }
 int countemp(struct Employee *ptr)
 {
-	return sizeof(ptr)/sizeof(ptr[0]);
+	return n;
 }
-struct Employee *addrec(struct Employee *ptr)
-{int org=sizeof(ptr)/sizeof(ptr[0]),i;
-	ptr=(struct Employee*)realloc(ptr,(2+sizeof(ptr))*sizeof(struct Employee));
-	for(i=org;i<sizeof(ptr)/sizeof(ptr[0]);i++)
+void addrec(struct Employee *ptr)
+{int old=n,i;
+n=old+5;
+printf("Enter data: \n");
+	for(i=old;i<n;i++)
 	{
 		scanf("%d",&ptr[i].Emp_id);
 		gets(ptr[i].Emp_name);
 		gets(ptr[i].Emp_city);
 	}
-	return ptr;
+printf("Database expanded with size %d\n",n);
 }
+
+
 void printitem(struct Employee *ptr,int index)
 {int i=index;
 	printf("%d\n",ptr[i].Emp_id);
@@ -67,7 +71,7 @@ void printitem(struct Employee *ptr,int index)
 }
 void printall(struct Employee *ptr)
 {int i;
-for(i=0;i<sizeof(ptr)/sizeof(ptr[0]);i++)
+for(i=0;i<n;i++)
 {
 
 	printf("%d\n",ptr[i].Emp_id);
@@ -77,9 +81,8 @@ for(i=0;i<sizeof(ptr)/sizeof(ptr[0]);i++)
 }
 
 int main()
-{
-
-struct Employee *A=CreateDatabase();
+{int index,id,count;
+CreateDatabase();
 int ch,ch2=1;
 while(ch2==1)
 {
@@ -88,29 +91,29 @@ printf("Enter 1 for Searching EMP data using Empid, 2 for Sorting, 3 for countin
 scanf("%d",&ch);
 switch(ch)
 {
-	case 1: int id;
+	case 1: printf("Enter emp id to search: ");
 			scanf("%d",&id);
-			int index=search(A,id);
-			printitem(A,index);
+			index=search(ptr,id);
+			printitem(ptr,index);
 			
 	break;
 	
-	case 2: sort(A);
-			printall(A);
+	case 2: sort(ptr);
+			printall(ptr);
 	break;
 	
-	case 3: int count=countemp(A);
+	case 3: count=countemp(ptr);
 			printf("%d",count);
 	
 	break;
 	
-	case 4: addrec(A);
-			printf("Size successfully increased");
+	case 4: addrec(ptr);
+			printf("Size successfully increased\n");
 	
 	break;
 	 
 }
-printf("Enter more operations? 1 for yes 0 for no");
+printf("\nEnter more operations? 1 for yes 0 for no: ");
 scanf("%d",&ch2);
 }
 	
