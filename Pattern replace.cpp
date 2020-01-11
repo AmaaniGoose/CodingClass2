@@ -7,7 +7,7 @@ int i,count=0;
 int replacelen=strlen(replace);
 int patternlen=strlen(pattern);
 for(i=0;str[i]!='\0';i++)
-{if(strstr(&str[i],pattern)==&str[i])
+{if(strstr(str,pattern)==str)
 	{
 		count++;
 		i+=patternlen-1;
