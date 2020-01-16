@@ -37,11 +37,13 @@ int search(struct Employee *ptr,int Emp_id)
 void sort(struct Employee *ptr)
 {int i;
 	for(i=0;i<n;i++)
-		{	
+		{	for(j=0;j<n-i-1;j++)
+			{
 			if(ptr[i].Emp_id>ptr[i+1].Emp_id)
 				{
 					swap(&ptr[i],&ptr[i+1]);
 				}
+			}		
 		}
 	
 }
