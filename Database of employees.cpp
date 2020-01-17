@@ -4,7 +4,9 @@ struct Employee{
 	int Emp_id;
 	char Emp_name[100];
 	char Emp_city[100];
-}ptr[100]={0};
+};
+
+struct Employee* ptr=(struct Employee*)calloc(5,sizeof(struct Employee));
 int n=5;
 void swap(struct Employee *a,struct Employee  *b)
 {
@@ -17,9 +19,11 @@ void CreateDatabase(void)
 
 printf("Enter data: \n");
 	for(i=0;i<n;i++)
-	{
+	{	printf("Enter EMP ID for no %d: ",i+1);
 		scanf("%d",&ptr[i].Emp_id);
+		printf("Enter EMP Name for no %d: ",i+1);
 		scanf("%s",ptr[i].Emp_name);
+		printf("Enter EMP City for no %d: ",i+1);
 		scanf("%s",ptr[i].Emp_city);
 	}
 printf("Database created with size %d\n",n);
@@ -35,15 +39,16 @@ int search(struct Employee *ptr,int Emp_id)
 	}
 }
 void sort(struct Employee *ptr)
-{int i;
+{int i,j;
 	for(i=0;i<n;i++)
 		{	for(j=0;j<n-i-1;j++)
 			{
+			
 			if(ptr[i].Emp_id>ptr[i+1].Emp_id)
 				{
 					swap(&ptr[i],&ptr[i+1]);
 				}
-			}		
+			}
 		}
 	
 }
@@ -57,9 +62,12 @@ n=old+5;
 printf("Enter data: \n");
 	for(i=old;i<n;i++)
 	{
+		printf("Enter EMP ID for no %d: ",i+1);
 		scanf("%d",&ptr[i].Emp_id);
-		gets(ptr[i].Emp_name);
-		gets(ptr[i].Emp_city);
+		printf("Enter EMP Name for no %d: ",i+1);
+		scanf("%s",ptr[i].Emp_name);
+		printf("Enter EMP City for no %d: ",i+1);
+		scanf("%s",ptr[i].Emp_city);
 	}
 printf("Database expanded with size %d\n",n);
 }
@@ -90,7 +98,7 @@ int ch,ch2=1;
 while(ch2==1)
 {
 
-printf("Enter 1 for Searching EMP data using Empid, 2 for Sorting, 3 for counting, 4 for increasing size: ");	
+printf("Enter 1 for Searching EMP data using Empid, 2 for Sorting, 3 for counting, 4 for increasing size 5 for printall: ");	
 scanf("%d",&ch);
 switch(ch)
 {
@@ -114,11 +122,17 @@ switch(ch)
 			printf("Size successfully increased\n");
 	
 	break;
+	
+	case 5: printall(ptr);
+	
+	break;
 	 
 }
 printf("\nEnter more operations? 1 for yes 0 for no: ");
 scanf("%d",&ch2);
 }
-	
+if(ch2==0)
+{free(ptr);
+	}	
 	
 }
