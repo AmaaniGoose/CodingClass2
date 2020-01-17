@@ -4,7 +4,7 @@ struct cust{
 	char sname[100];
 	char fname[100];
 	char mname[100];
-	char phone[100];		
+	char phone[10];		
 };
 
 
