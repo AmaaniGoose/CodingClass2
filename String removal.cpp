@@ -9,7 +9,7 @@ for(i=0;i<=stringlen-wordlen;i++)
 	
 	{	flag=1;
 		for(j=0;j<wordlen;j++)
-		{if((*str+i+j)!=(*word+j))
+		{if(str[i+j]!=word[j])
 		{		
 			flag=0;
 			break;
@@ -17,7 +17,7 @@ for(i=0;i<=stringlen-wordlen;i++)
 		}
 		
 		}
-		if((*str+i+j) != ' ' && (*str+i+j) != '\t' && (*str+i+j) != '\n' && (*str+i+j) != '\0') 
+		if(str[i + j] != ' ' && str[i + j] != '\t' && str[i + j] != '\n' && str[i + j] != '\0') 
         {
             flag = 0;
         }
@@ -54,4 +54,3 @@ int main()
 
     return 0;
 }
-
