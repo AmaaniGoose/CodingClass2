@@ -3,22 +3,26 @@
 struct node
 	 { 
 		 int data; 
-		 struct node *link;	  	
+		 struct node *fwd;
+		 struct node *back;	  	
 	 };
 struct node *head;
+struct node *last;
 
 node* getnode(int data) 
 { 
 
     node* newNode = (node*)malloc(sizeof(node)); 
   	newNode->data = data; 
-    newNode->link = NULL; 
+  	newNode->back=NULL;
+    newNode->fwd = NULL; 
     return newNode; 
 } 
 
+
 void list(int n)
 {
-struct node *temp,*newnode;
+struct node *newnode;
 int i,data,count=0;
 head=(struct node*)malloc(sizeof(node));
 if(head==NULL)
@@ -28,18 +32,21 @@ if(head==NULL)
 printf("Enter data of first node: ");
 scanf("%d",&data);
 head->data=data;
-head->link=NULL;
-temp=head;
+head->fwd=NULL;
+head->back=NULL;
+last=head;
 count++;
 for(i=0;i<n-1;i++)
 {
 	printf("Enter data for node %d: ",count+1);
 	scanf("%d",&data);
 	newnode=getnode(data);
-	temp->link=newnode;
-	temp=temp->link;
+	newnode->back=last;
+	last->fwd=newnode;
+	last=newnode;
 	count++;
 }
+
 }
 void printall()
 {	printf("Current list is: ");
@@ -51,7 +58,7 @@ void printall()
 	while(temp!=NULL)
 	{
 		printf("%d->",temp->data);
-		temp=temp->link;
+		temp=temp->fwd;
 	}
 }
 
@@ -63,7 +70,7 @@ void printallspecial()
 	while(temp!=NULL)
 	{
 		printf("%d{%d}->",temp->data,count);
-		temp=temp->link;
+		temp=temp->fwd;
 		count++;
 	}
 }
@@ -72,23 +79,20 @@ void deletebeg()
 {
 	struct node* temp;
 	temp=head;
-	temp=temp->link;
+	temp=temp->fwd;
 	free(head);
 	head=temp;
+	head->back=NULL;
 	
 }
 
 void deleteend()
 {
-	struct node* temp;
-	temp=head;
-	while(temp->link->link!=NULL)
-	{
-		temp=temp->link;
-	}
-	free(temp->link->link);
-	temp->link=NULL;
-
+	struct node *temp;
+	temp=last->back;
+	delete(last);
+	last=temp;
+	last->fwd=NULL;
 }
 
 void deletemid()
@@ -104,18 +108,19 @@ void deletemid()
 	temp=head;
 	while(count!=choice)
 	{
-		temp=temp->link;
+		temp=temp->fwd;
 		count++;
 	}
-	if(temp->link==NULL)
+	if(temp->fwd==NULL)
 	{
 		deleteend();
 		return;
 	}
 	printf("The new data will be deleted after %d which holds value %d \n",count,temp->data);
-	temp2=temp->link->link;
-	free(temp->link);
-	temp->link=temp2;
+	temp2=temp->fwd->fwd;
+	free(temp->fwd);
+	temp->fwd=temp2;
+	temp2->back=temp;
 	}
 int main()
 {
