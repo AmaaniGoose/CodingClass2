@@ -5,7 +5,8 @@ struct node
 		 int data; 
 		 struct node *link;	  	
 	 };
-struct node *head,*head2;
+struct node *head;
+int res[100];
 
 struct node* getnode(int data) 
 { 
@@ -22,6 +23,7 @@ void list(int n)
 struct node *temp,*newnode;
 int i,data,count=0;
 head=(struct node*)malloc(sizeof(node));
+
 if(head==NULL)
 {
 	printf("Insufficient space");
@@ -45,7 +47,7 @@ for(i=0;i<n-1;i++)
 
 void printall(struct node *head)
 {
-	struct node* temp;
+	struct node *temp,*temp2;
 	temp=head;
 	while(temp!=NULL)
 	{
@@ -54,37 +56,65 @@ void printall(struct node *head)
 	}
 }
 
-void rearrange()
+void rearrangedata()
 {
-head2=(struct node*)malloc(sizeof(node));
-head2->link=NULL;
-struct node *temp,*temp2;
+	
+int i;
+struct node *temp;
 temp=head;
-temp2=head2;
 while(temp->link!=NULL)
 	{
 		if((temp->data)%2==0)
 		{	
-			temp2->data=temp->data;
-			temp2->link=temp->link;
-			temp2=temp2->link;
+			res[i]=temp->data;
+			i++;
 		}
 		temp=temp->link;
 	}
+if((temp->data)%2==0)
+	{
+		res[i]=temp->data;
+		i++;
+	}
 
 temp=head;
+
 while(temp->link!=NULL)
 	{
 		if((temp->data)%2!=0)
 		{	
-			temp2->data=temp->data;
-			temp2->link=temp->link;
-			temp2=temp2->link;
+			res[i]=temp->data;
+			i++;
 		}
 		temp=temp->link;
 	}
-
+if((temp->data%2)!=0)
+	{
+		res[i]=temp->data;
+		i++;
+	}
+	/*for(int j=0;j<i;j++)
+	{
+		printf("%d-> ",res[j]);
+	}*/
 }
+
+void rearrange(int n)
+{	
+	int i;
+	struct node *temp,*newnode;
+	free(head);
+	head->data=res[0];
+	head->link=NULL;
+	temp=head;
+	for(i=1;i<n;i++)
+	{
+		newnode=getnode(res[i]);
+		temp->link=newnode;
+		temp=temp->link;
+	}
+}
+
 int main()
 {
 	int n;
@@ -93,6 +123,8 @@ int main()
 	list(n);
 	printall(head);
 	printf("\n");
-	rearrange();
-	printall(head2);
+	rearrangedata();
+	rearrange(n);
+	printall(head);
+	return 0;
 }

@@ -51,19 +51,42 @@ void printall()
 		printf("%d->",temp->data);
 		temp=temp->link;
 	}
+	printf("%d->",temp->data);
 }
-void count()
+void reverse(struct node **head) 
 {
-	struct node *temp;
-	temp=head;
-	int count=1;
-	while(temp->link!=head)
-	{
-		temp=temp->link;
-		count++;
-	}
-	printf("\n%d",count);
+
+    struct node *prev, *cur, *link, *last;
+
+
+    if (*head == NULL)
+    {
+        printf("Cannot reverse empty list.\n");
+        return;
+    }
+
+
+
+    last = *head;
+
+    prev  = *head;
+    cur   = (*head)->link;
+    *head = (*head)->link;
+
+  
+    while (*head != last)
+    {
+        *head = (*head)->link;
+        cur->link = prev;
+
+        prev = cur;
+        cur  = *head;
+    }
+
+    cur->link = prev;
+    *head = prev;       
 }
+
 int main()
 {
 	int n;
@@ -71,5 +94,7 @@ int main()
 	scanf("%d",&n);
 	list(n);
 	printall();
-	count();
+	reverse(&head);
+	printf("\n");
+	printall();
 }

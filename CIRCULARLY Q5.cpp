@@ -45,6 +45,9 @@ for(i=0;i<n-1;i++)
 void printall()
 {	printf("Current list is: ");
 	struct node* temp;
+	if(head==NULL)
+	{printf("Empty LIST ");
+	}
 	temp=head;
 	while(temp->link!=head)
 	{
@@ -53,52 +56,47 @@ void printall()
 	}
 	printf("%d",temp->data);
 }
-
+/*
 void printallspecial()
 {
 	struct node* temp;
 	temp=head;
 	int count=1;
-	while(temp->link!=head)
+	while(temp!=NULL)
 	{
 		printf("%d{%d}->",temp->data,count);
 		temp=temp->link;
 		count++;
 	}
-}
+}*/
 
-void insertbeg()
+void deletebeg()
 {
-	struct node *newnode,*temp;
-	int data;
-	printf("Enter data for new node : ");
-	scanf("%d",&data);
-	newnode=getnode(data);
+	struct node *temp,*temp2;
 	temp=head;
-	while(temp->link!=head)
-	{	
-		temp=temp->link;
-	}
-	temp->link=newnode;
-	newnode->link=head;
-	head=newnode;
-}
-
-void insertend()
-{
-	struct node *newnode;
-	int data;
-	printf("Enter data for new node : ");
-	scanf("%d",&data);
-	newnode=getnode(data);
-	struct node* temp;
-	temp=head;
+	temp2=head;
 	while(temp->link!=head)
 	{
 		temp=temp->link;
 	}
-	temp->link=newnode;
-	newnode->link=head;	
+	temp->link=head->link;
+	free(temp2);
+	head=temp->link;
+	
+}
+
+void deleteend()
+{
+	struct node *temp,*temp2;
+	temp=head;
+	while(temp->link->link!=head)
+	{
+		temp=temp->link;
+	}
+	temp2=temp->link;
+	temp->link=head;
+	free(temp2);
+	
 	
 }
 
@@ -114,27 +112,27 @@ int main()
 	int ch1=1;
 	while(ch1==1)
 	{
-	
-	printf(" \nMenu for operations: Enter 1 for insertion at beginning and 2 for insertion at end: ");
+	printf(" \nMenu for operations: Enter 1 for deletion at beginning and 2 for deletion at end: ");
 	scanf("%d",&ch);
 	switch(ch)
 	{
 		
-		case 1: insertbeg();
+		case 1: deletebeg();
 				printall();
 		
 		break;
 		
-		case 2: insertend();
+		case 2: deleteend();
 				printall();
 		
 		break;
 		
-		/*case 3: insertmid();
+		/*case 3: deletemid();
 				printall();*/
 	}
 	printf("Enter more? 1 for yes and 0 for no ");
 	scanf("%d",&ch1);
 	}
+	
 	return 0;
 }

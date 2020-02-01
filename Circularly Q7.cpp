@@ -5,7 +5,7 @@ struct node
 		 int data; 
 		 struct node *link;	  	
 	 };
-struct node *head;
+struct node *head,*head2;
 
 node* getnode(int data) 
 { 
@@ -20,7 +20,7 @@ void list(int n)
 {
 struct node *temp,*newnode;
 int i,data,count=0;
-head=(struct node*)malloc(sizeof(node));
+head=(struct node*)malloc(sizeof(struct node));
 if(head==NULL)
 {
 	printf("Insufficient space");
@@ -42,7 +42,39 @@ for(i=0;i<n-1;i++)
 	count++;
 }
 }
-void printall()
+void split(int n)
+{
+	int i;
+	struct node *temp,*temp3;
+	temp=head;
+	temp3=head;
+	while(temp3->link!=head)
+	{
+		temp3=temp3->link;
+	}
+	head2=(struct node*)malloc(sizeof(struct node));
+	if(n%2==0)
+	{
+		for(i=1;i<n/2;i++)
+		{
+			temp=temp->link;
+		}
+		head2=temp->link;
+		temp->link=head;
+		temp3->link=head2;
+	}
+	else
+	{
+		for(i=1;i<(n+1)/2;i++)
+		{
+			temp=temp->link;
+		}
+		head2=temp->link;
+		temp->link=head;
+		temp3->link=head2;
+	}
+}
+void printall(struct node *head)
 {
 	struct node* temp;
 	temp=head;
@@ -51,18 +83,7 @@ void printall()
 		printf("%d->",temp->data);
 		temp=temp->link;
 	}
-}
-void count()
-{
-	struct node *temp;
-	temp=head;
-	int count=1;
-	while(temp->link!=head)
-	{
-		temp=temp->link;
-		count++;
-	}
-	printf("\n%d",count);
+	printf("%d->",temp->data);
 }
 int main()
 {
@@ -70,6 +91,10 @@ int main()
 	printf("Enter the value of n: ");
 	scanf("%d",&n);
 	list(n);
-	printall();
-	count();
+	printall(head);
+	split(n);
+	printf("\n Now printing splitted lists \n");
+	printall(head);
+	printf("\n");
+	printall(head2);
 }
