@@ -41,7 +41,7 @@ for(i=0;i<n-1;i++)
 	count++;
 }
 }
-void printall(struct node *head)
+void printall()
 {
 	struct node* temp;
 	temp=head;
@@ -51,30 +51,11 @@ void printall(struct node *head)
 		temp=temp->link;
 	}
 }
-
-struct node *reverse(struct node *head)
-{	
-	if(head==NULL || head->link==NULL)
-	{
-		return head;
-	}
-	struct node *revhead;
-	revhead=reverse(head->link);
-	head->link->link=head;
-	head->link=NULL;
-	
-	return revhead;
-	
-}
 int main()
 {
 	int n;
 	printf("Enter the value of n: ");
 	scanf("%d",&n);
 	list(n);
-	printall(head);
-	head=reverse(head);
-	printf("\n");
-	printall(head);
-
+	printall();
 }

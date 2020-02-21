@@ -41,7 +41,7 @@ for(i=0;i<n-1;i++)
 	count++;
 }
 }
-void printall(struct node *head)
+void printall()
 {
 	struct node* temp;
 	temp=head;
@@ -51,30 +51,39 @@ void printall(struct node *head)
 		temp=temp->link;
 	}
 }
-
-struct node *reverse(struct node *head)
-{	
-	if(head==NULL || head->link==NULL)
+void printallspecial()
+{
+	struct node* temp;
+	temp=head;
+	int count=1;
+	while(temp!=NULL)
 	{
-		return head;
+		printf("%d{%d}->",temp->data,count);
+		temp=temp->link;
+		count++;
 	}
-	struct node *revhead;
-	revhead=reverse(head->link);
-	head->link->link=head;
-	head->link=NULL;
-	
-	return revhead;
-	
+}
+void nthnode(int size, int n)
+{
+	struct node *temp;
+	int count=1;
+	temp=head;
+	while(count!=size-n+1)
+	{
+		temp=temp->link;
+		count++;
+	}
+	printf("%d",temp->data);
 }
 int main()
 {
-	int n;
-	printf("Enter the value of n: ");
+	int n,n2;
+	printf("Enter the number of nodes: ");
 	scanf("%d",&n);
 	list(n);
-	printall(head);
-	head=reverse(head);
-	printf("\n");
-	printall(head);
+	printallspecial();
+	printf("\n Enter the value of n: ");
+	scanf("%d",&n2);
+	nthnode(n,n2);
 
 }
