@@ -29,18 +29,7 @@ struct node* traverse(int loc)
 	return temp;
 	
 }
-void val()
-{
-	res[0]=2;
-	res[1]=4;
-	res[2]=1;
-	res[3]=3;
-	res[4]=5;
-	for(int i=0;i<5;i++)
-	{
-		printf("%d ",res[i]);
-	}
-}
+
 
   
 struct node* list(struct node* head,int data)
@@ -76,6 +65,7 @@ if(head->link==NULL)
 	if((head->data)%2==0)
 	{
 		res[i]=head->data;
+	//	printf("%d %d ",res[i],i);
 		i++;
 	}
 	return;
@@ -85,11 +75,12 @@ else
 		if((head->data)%2==0)
 		{	
 			res[i]=head->data;
+		//	printf("%d %d ",res[i],i);
 			i++;
 		}
-		rearrangedataeve(head->link);
+	
 	}
-
+	rearrangedataeve(head->link);
 
 }
 
@@ -101,6 +92,7 @@ if(head->link==NULL)
 	if((head->data)%2!=0)
 	{
 		res[i]=head->data;
+		//printf("%d %d ",res[i],i);
 		i++;
 	}
 		return;
@@ -110,11 +102,12 @@ else
 		if((head->data)%2!=0)
 		{	
 			res[i]=head->data;
+			//printf("%d %d ",res[i],i);
 			i++;
 		}
-		rearrangedataodd(head->link);
+		
 	}
-
+rearrangedataodd(head->link);
 
 }
 
@@ -134,27 +127,27 @@ void rearrange(int n)
 		temp->link=newnode;
 		temp=temp->link;
 	}
-	val();
+
 }
 
 int main()
 {
-	int n,i;
+	int n,j;
 	head=NULL;
 	printf("Enter the value of n: ");
 	scanf("%d",&n);
-	for(i=0;i<n;i++)
+	for(j=0;j<n;j++)
 	{
 		int data;
-		printf("Enter data for node %d : ",i+1);
+		printf("Enter data for node %d : ",j+1);
 		scanf("%d",&data);
 		head=list(head,data);
 	}
 	printall(head);
 	printf("\n");
 	rearrangedataeve(head);
-	rearrangedataeve(head);
+	rearrangedataodd(head);
 	rearrange(n);
-	//printall(head);
+	printall(head);
 	return 0;
 }

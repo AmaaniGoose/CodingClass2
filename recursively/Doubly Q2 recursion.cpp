@@ -1,71 +1,42 @@
 #include<stdio.h>
 #include<stdlib.h>
 struct node
-	 { 
-		 int data; 
-		 struct node *fwd;
-		 struct node *back;	  	
-	 };
-struct node *last;
-struct node *head=(struct node*)malloc(sizeof(node));
-
-node* getnode(int data) 
+{
+	int data;
+	struct node *fwd;
+	struct node *back;
+};
+struct node* head=(struct node*)malloc(sizeof(struct node));
+struct node* getnode(int data) 
 { 
 
     node* newNode = (node*)malloc(sizeof(node)); 
   	newNode->data = data; 
-    newNode->link = NULL; 
+    newNode->fwd = NULL; 
+    newNode->back=NULL;
     return newNode; 
 } 
-struct node* traverse(int loc)
+void print(struct node*temp)
 {
-	struct node* temp=head;
-	int count=1;
-	while(count!=loc)
+	if(temp!=NULL)
 	{
-		count++;
-		temp=temp->link;
+		printf("%d ",temp->data);
+		print(temp->fwd);
 	}
-	return temp;
-	
-}
-struct node* list(struct node* head,int data)
-{
-if(head==NULL)
-	{
-		return getnode(data);
-	}
-else
-	{	
-
-	head->link=list(head->link,data);
-	
-	}
-return head;
 }
 
-void printall(struct node* head) 
-{ 
-    if (head == NULL) 
-       return; 
-	    
-    printf("%d->",head->data);
-  
- 	printall(head->link); 
-} 
-
-void printallspecial(struct node* head) 
-{ 
-	int count=1;
-    if (head == NULL) 
-       return; 
-	    
-    printf("%d{%d}->",head->data,count);
-    count++;
-  	
- 	printall(head->link); 
-} 
-
+void create(struct node*temp,int n)
+{
+	if(n>0)
+	{
+		temp->fwd=(struct node*)malloc(sizeof(struct node));
+		printf("enter data : ");
+		scanf("%d",&temp->fwd->data);
+		temp->fwd->back=temp;
+		temp->fwd->fwd=NULL;
+		create(temp->fwd,n-1);
+	}
+}
 void insertbeg()
 {
 	struct node *newnode;
@@ -73,59 +44,26 @@ void insertbeg()
 	printf("Enter data for new node : ");
 	scanf("%d",&data);
 	newnode=getnode(data);
-	newnode->link=head;
+	newnode->fwd=head;
+	head->back=newnode;
 	head=newnode;
 	
 }
-
-struct node* insertend(struct node* head,int data)
-{
-	if(head==NULL)
-	{
-		return getnode(data);
-	}
-else
-	{	
-
-	head->link=insertend(head->link,data);
-	
-	}
-return head;
-}
-
-struct node* insertmid(struct node* head,int data,int loc)
-{
-struct node* temp=traverse(loc);
-if(head==temp)
-	{
-		struct node* temp2=temp->link;
-		struct node* newnode=getnode(data);
-		temp->link=newnode;
-		newnode->link=temp2;
-		
-	}
-else
-	{	
-	
-	head->link=insertmid(head->link,data,loc);
-	
-	}
-return head;
-}
 int main()
 {
-	int n,i,data,loc;
-	head=NULL;
-	printf("Enter the value of n: ");
+	int i,j,n;
+	printf("enter no. of nodes you want: ");
 	scanf("%d",&n);
-	for(i=0;i<n;i++)
-	{
-		int data;
-		printf("Enter data for node %d : ",i+1);
-		scanf("%d",&data);
-		head=list(head,data);
-	}
-	printall(head);
+	struct node *temp;
+	temp=head;
+	printf("enter data : ");
+	scanf("%d",&head->data);
+	head->back=NULL;
+	head->fwd=NULL;
+	create(temp,n-1);
+	printf("printing the data :");
+	temp=head;
+	print(temp);
 	int ch;
 	int ch1=1;
 	while(ch1==1)
@@ -137,7 +75,7 @@ int main()
 	{
 		
 		case 1: insertbeg();
-				printall(head);
+				print(head);
 		
 		break;
 		
@@ -145,7 +83,7 @@ int main()
 				printf("Enter data for node %d : ",i+1);
 				scanf("%d",&data);
 				head=list(head,data);
-				printall(head);
+				print(head);
 		
 		break;
 		
@@ -155,10 +93,10 @@ int main()
 				printf("Enter location: ");
 				scanf("%d",&loc);
 				head=insertmid(head,data,loc);
-				printall(head);
+				print(head);
 	}
 	printf("Enter more? 1 for yes and 0 for no ");
 	scanf("%d",&ch1);
 	}
-	return 0;
+	return 0;	
 }
