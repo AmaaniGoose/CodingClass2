@@ -1,12 +1,12 @@
 #include<stdio.h>
 #include<stdlib.h>
-typedef struct node
+struct node
 	 { 
 		 int data; 
 		 struct node *link;	  	
 	 };
 struct node *head=(struct node*)malloc(sizeof(node));
-struct node *head2=(struct node*)malloc(sizeof(node));
+struct node *head2=head;
 node* getnode(int data) 
 { 
 
@@ -29,57 +29,39 @@ void list(node* temp,int n)
 
 }
 
-void printall(node* temp,node* head)
+void printall(node* temp)
 {
 	if(temp->link!=head)
 	{
 		printf("%d->",temp->data);
-		printall(temp->link,head);
+		printall(temp->link);
 	}
 	if(temp->link==head)
 		printf("%d->",temp->data);
 
 }
 
-
-void split(struct node* temp,int n)
-{	
-	static int half;
-	static struct node* temp3=head;
-	if(n%2==0)
+struct node* reverse(struct node* temp)
+{
+	if(temp->link==head)
 	{
-		half=n/2;
+		head=temp;
+		return temp;
 	}
-	else
+	struct node* curr=reverse(temp->link);
+	curr->link=temp;
+	temp->link=head;
+	return temp; 
+}
+void linker(struct node* temp)
+{
+	if(temp->link==head)
 	{
-		half=(n+1)/2;
+		temp->link=head2;
+		head2->link=head;
+		return;
 	}
-	while(temp3->link!=head)
-	{
-		temp3=temp3->link;
-	}
-	if(n%2==0)
-	{
-		if(n==0)
-		{
-			head2=temp->link;
-			temp->link=head;
-			temp3->link=head2;
-			return;
-		}
-		split(temp->link,(n/2)-1);
-	}
-	else
-	{
-		if(n==0)
-		{
-			head2=temp->link;
-			temp->link=head;
-			temp3->link=head2;
-			return;
-		}
-		split(temp->link,((n+1)/2)-1);
-	}
+	linker(temp->link);
 }
 int main()
 {
@@ -95,11 +77,10 @@ int main()
 	head->data=data;
 	head->link=NULL;
 	list(head,n-1);
-	printall(head,head);
-	split(head,n);
+	printall(head);
 	printf("\n");
-	printall(head,head);
-	printf("\n");
-	printall(head2,head2);
+	head=reverse(head);
+	//linker(head);
+	printall(head);
 	return 0;
 }

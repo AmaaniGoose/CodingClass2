@@ -1,46 +1,71 @@
 #include<stdio.h>
 #include<stdlib.h>
-struct node
-{
-	int data;
-	struct node *link;
-};
-struct node *head,*temp1;
-void print(struct node *temp);
-void print(struct node *temp)
-{
-	if(temp!=head)
-	{
-		printf("%d ",temp->data);
-		print(temp->link);
-	}
-}
-void create(struct node* temp,int n);
-void create(struct node* temp,int n)
+typedef struct node
+	 { 
+		 int data; 
+		 struct node *link;	  	
+	 };
+struct node *head=(struct node*)malloc(sizeof(node));
+
+node* getnode(int data) 
+{ 
+
+    node* newNode = (node*)malloc(sizeof(node)); 
+  	newNode->data = data; 
+    newNode->link = NULL; 
+    return newNode; 
+} 
+
+void list(node* temp,int n)
 {
 	if(n>0)
 	{
 		temp->link=(struct node*)malloc(sizeof(struct node));
-		printf("enter data : ");
+		printf("Enter data: ");
 		scanf("%d",&temp->link->data);
-		temp->link->link=temp1;
-		create(temp->link,n-1);
+		temp->link->link=head;
+		list(temp->link,n-1);
 	}
+
 }
-main()
+
+void printall(node* temp)
 {
-	int i,j,n;
-	printf("enter no. of circular nodes u want : ");
+	if(temp->link!=head)
+	{
+		printf("%d->",temp->data);
+		printall(temp->link);
+	}
+	if(temp->link==head)
+		printf("%d->",temp->data);
+
+}
+void count(struct node* temp)
+{static int counter;
+	if(temp->link==head)
+	{
+		printf("\nNumber of nodes is %d",++counter);
+		return;
+	}
+	else
+		counter++;
+		count(temp->link);
+}
+int main()
+{
+	int n,data;
+	printf("Enter the value of n: ");
 	scanf("%d",&n);
-	struct node *head,*temp;
-	head=(struct node*)malloc(sizeof(struct node));
-	temp=head;
-	printf("enter data : ");
-	scanf("%d",&head->data);
-	head->link=temp;
-	temp=head;
-	create(temp,n-1);
-	printf("printing the data :");
-	temp=head;
-	print(temp);	
+	if(head==NULL)
+	{
+		printf("Insufficient space");
+	}
+	printf("Enter data of first node: ");
+	scanf("%d",&data);
+	head->data=data;
+	head->link=NULL;
+	list(head,n-1);
+	printall(head);
+	count(head);
+	return 0;
 }
