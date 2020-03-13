@@ -10,15 +10,34 @@ int front2=0;
 int rear2=max-1;
 int size1=0;
 int size2=0;
-void swap(int* a,int *b)
+void swap(int &a,int &b)
 {
-	int *temp=a;
+	int temp=a;
 	a=b;
 	b=temp;
 }
-int IsEmptyqueue1()
+void swaparr(int * a, int * b, int size)
 {
-	if(size1==0)
+	for(int i=0;i<size;i++)
+	{
+		swap(a[i],b[i]);
+	}
+/*
+    int * sourceArrEnd = (sourceArr + (size - 1));
+    int * destArrEnd   = (destArr + (size - 1));
+    while(sourceArr <= sourceArrEnd && destArr <= destArrEnd)
+    {
+        *sourceArr ^= *destArr;
+        *destArr   ^= *sourceArr;
+        *sourceArr ^= *destArr;
+        sourceArr++;
+        destArr++;
+    }
+*/
+}
+int IsEmptyqueue(int size)
+{
+	if(size==0)
 	{
 		return 1;
 	}
@@ -29,9 +48,9 @@ int IsEmptyqueue1()
 	}
 }
 
-int IsFullqueue1()
+int IsFullqueue(int size)
 {
-	if(size1==max)
+	if(size==max)
 	{
 		return 1;
 	}
@@ -41,85 +60,41 @@ int IsFullqueue1()
 		return 0;
 	}
 }
-int IsEmptyqueue2()
+void enqueue(int data,int &size,int *rear,int queue[])
 {
-	if(size2==0)
-	{
-		return 1;
-	}
-	
-	else
-	{
-		return 0;
-	}
-}
-
-int IsFullqueue2()
-{
-	if(size2==max)
-	{
-		return 1;
-	}
-	
-	else
-	{
-		return 0;
-	}
-}
-void enqueue1(int data)
-{
-	if(IsFullqueue1())
+	if(IsFullqueue(size))
 	{
 		printf("Queue OVERFLOW");
 		return;
 	}
-	rear1=(rear1+1)%max;
-	queue1[rear1]=data;
-	size1++;
+	*rear=(*rear+1)%max;
+	queue[*rear]=data;
+	size++;
 }
-int dequeue1()
+int dequeue(int &size,int *front,int queue[])
 {
-	if(IsEmptyqueue1())
+	if(IsEmptyqueue(size))
 	{
 		return INT_MIN;
 	}
-	int data=queue1[front1];
-	front1=(front1+1)%max;
-	size1--;
-	return data;
-}
-void enqueue2(int data)
-{
-	if(IsFullqueue2())
-	{	
-		return;
-	}
-	rear2=(rear2+1)%max;
-	queue2[rear2]=data;
-	size2++;
-}
-int dequeue2()
-{
-	if(IsEmptyqueue2())
-	{
-
-		return INT_MIN;
-	}
-	int data=queue2[front2];
-	front2=(front2+1)%max;
-	size2--;
+	int data=queue[*front];
+	*front=(*front+1)%max;
+	size--;
 	return data;
 }
 
 void push(int data)
 {
-	enqueue2(data);
-	while(!(IsEmptyqueue1()))
+	enqueue(data,size2,&rear2,queue2);
+	while(!(IsEmptyqueue(size1)))
 	{
-		int temp=dequeue1();
-		enqueue2(temp);
+		int temp=dequeue(size1,&front1,queue1);
+		enqueue(temp,size2,&rear2,queue2);
 	}
-	swap(&queue2,&queue1);
+	swaparr(queue1,queue2,100);
+	swap(rear1,rear2);
+	swap(front1,front2);
+	swap(size1,size2);
 	stacksize++;
 }
 int pop()
@@ -129,7 +104,7 @@ int pop()
 		printf("UNDERFLOW");
 		return INT_MIN;
 	}
-	int data=dequeue1();
+	int data=dequeue(size1,&front1,queue1);
 	stacksize--;
 	return data;
 }
@@ -187,6 +162,11 @@ int main()
 		case 1: printf("Enter the element to be pushed: ");
 				scanf("%d",&data);
 				push(data);
+				for(int i=0;i<100;i++)
+				{
+					printf("%d ",queue1[i]);
+				}
+				printf("size 1 is %d and size 2 is %d stacksize is %d: ",size1,size2,stacksize);
 				
 		break;
 		
