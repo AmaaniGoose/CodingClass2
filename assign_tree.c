@@ -2,9 +2,7 @@
 #include<stdlib.h>
 #include<limits.h>
 #define max 100
-//DETAILS: Name: Amanullah Asad Roll No: 19/11/EE/016 Branch: ECE
-//All 3 questions have been solved in one file and can be accessed using a switch statement
-//FUNCTIONS FOR QUEUE
+
 struct node* queue[max];
 int front=0;
 int rear=max-1;
